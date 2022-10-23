@@ -1,4 +1,4 @@
-from turtle import distance
+#from turtle import distance
 from pyparsing import countedArray
 import geocoder
 from nltk.tokenize import sent_tokenize
@@ -260,7 +260,6 @@ def score_q2(province_text, country_text, continent_text, program_text, day_text
 }
 	q2_score = 0
 	def getLocation(userCity, userCountry, q2_score):
-		import geocoder
 		try:
 			locationIP = geocoder.ip('me')
 			lat, lng = locationIP.latlng
