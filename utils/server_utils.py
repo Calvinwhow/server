@@ -7,6 +7,11 @@ import language_tool_python
 import utils.deeplearning_utils as ml
 import utils.custom_utils as cutils
 
+import wave
+import speech_recognition as sr
+import pyaudio
+import io
+
 import glob
 import PIL	
 import os
@@ -404,21 +409,37 @@ def score_q2(province_text, country_text, continent_text, program_text, day_text
 	print('q2_score: ', q2_score)
 	return q2_score
 
-# def q3_score(audio_bytes):
-# 	print('q3 text: ', text)
-# 	if text.count('lemon') != 0 or text.count('lime') != 0:
-# 		if self.lemon:
-# 			self.q3_score = self.q3_score + 1
-# 			self.lemon = False
-# 	if text.count('key') != 0 or text.count('chi') != 0 or text.count('Chi') != 0 or text.count('tea') != 0 and self.key:
-# 		if self.key:
-# 			self.q3_score = self.q3_score + 1
-# 			self.key = False
-# 	if text.count('ball') != 0 or text.count('bawl') != 0 and self.ball:
-# 		if self.ball:
-# 			self.q3_score = self.q3_score + 1
-# 			self.ball = False
-# 	print('q3 score: ' + str(self.q3_score))
+def transcriber(audio_file):
+	arb = sr.AudioFile(audio_file)
+	r = sr.Recognizer()
+	with arb as source:
+		audiodata = r.record(arb)
+	try:
+		text = r.recognize_google(audiodata, language='en-US', show_all=False)
+	except:
+		print('Error: speech recognition; suspect network error.')
+	return text
+
+def score_q3(audio_file):
+	q3_score = 0
+	lemon = True ; key = True ; ball = True
+	text = transcriber(audio_file)
+	if text:
+		print('recognized text:', text)
+		if text.count('lemon') != 0 or text.count('lime') != 0:
+			if lemon:
+				q3_score = q3_score + 1
+				lemon = False
+		if text.count('key') != 0 or text.count('chi') != 0 or text.count('Chi') != 0 or text.count('tea') != 0 and key:
+			if key:
+				q3_score = q3_score + 1
+				key = False
+		if text.count('ball') != 0 or text.count('bawl') != 0 and ball:
+			if ball:
+				q3_score = q3_score + 1
+				ball = False
+	print('q3 score: ' + str(q3_score))
+	return q3_score 
 
 def score_q4(one, two, three, four, five):
 	q4_answers = []

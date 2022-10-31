@@ -49,10 +49,19 @@ def score(text_results: Text_Results):
     q2_score = pkg.score_q2(province, country, continent, modality, day, month, year, date, season, city)
     return {'score': int(q2_score)}
 
-@app.post("/quesiton_three_screen")
-def score(audio_results: Audio_Results):
-    q3_score = pkg.score_q3(audio_results.audio_one)
-    return {'score': int(q3_score)}
+@app.post("/question_three_screen")
+async def upload(file: UploadFile = File(...)):
+    q3_score = 0
+    if not file:
+        return {'message': 'no file sent'}
+    else:
+        try:
+            q3_score = pkg.score_q3(file.file) #testing to try and pass the IO itself
+        except:
+            print('Error')
+    return {'score': q3_score}
+    #return {'info': f'file"{x}" saved at"{file_location}"'}
+
 
 @app.post('/question_four_screen')
 def score(text_results: Text_Results):
@@ -65,6 +74,16 @@ def score(text_results: Text_Results):
     sentence = text_results.text_one
     q10_score = pkg.score_q10(sentence)
     return {'score': int(q10_score)}
+
+@app.post('/question_sixteenC_screen')
+def score(text_results: Text_Results):
+    q16_score = pkg.score_q16()
+    return {'score': int(q16_score)}
+
+@app.post('/question_twenty_screen')
+def score(text_results: Text_Results):
+    q20_score = pkg.score_q20(text_results.text_one, text_results.text_two, text_results.text_three, text_results.text_four, text_results.text_five, text_results.text_six, text_results.text_seven, text_results.text_eight)
+    return {'score': int(q20_score)}
 
 @app.post('/upload_png')
 async def upload(file: UploadFile = File(...)):
@@ -81,15 +100,20 @@ async def upload(file: UploadFile = File(...)):
             file.file.close()
         return {'info': f'file"{x}" saved at"{file_location}"'}
 
-@app.post('/question_sixteenC_screen')
-def score(text_results: Text_Results):
-    q16_score = pkg.score_q16()
-    return {'score': int(q16_score)}
-
-@app.post('/question_twenty_screen')
-def score(text_results: Text_Results):
-    q20_score = pkg.score_q20(text_results.text_one, text_results.text_two, text_results.text_three, text_results.text_four, text_results.text_five, text_results.text_six, text_results.text_seven, text_results.text_eight)
-    return {'score': int(q20_score)}
+@app.post('/upload_wav')
+async def upload(file: UploadFile = File(...)):
+    if not file:
+        return {'message': 'no file sent'}
+    else:
+        try:
+            file_location = f"{file.filename}"
+            print(file_location)
+            with open(file_location, 'wb+') as file_object:
+                file_object.write(file.file.read())
+        finally:
+            x = file.filename
+            file.file.close()
+        return {'info': f'file"{x}" saved at"{file_location}"'}
 
 #Functional CSV posting function
 @app.post('/results/')
