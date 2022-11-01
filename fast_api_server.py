@@ -1,5 +1,5 @@
 #run in cmd > uvicorn server_test:app --reload
-from fastapi import FastAPI, File, UploadFile
+from fastapi import FastAPI, File, UploadFile, Request
 from matplotlib.pyplot import text
 from pydantic import BaseModel
 import os
@@ -49,25 +49,36 @@ def score(text_results: Text_Results):
     q2_score = pkg.score_q2(province, country, continent, modality, day, month, year, date, season, city)
     return {'score': int(q2_score)}
 
-@app.post("/question_three_screen")
-async def upload(file: UploadFile = File(...)):
+@app.post("/audio_question/{score_q_n}")
+async def upload(score_q_n: str, file: UploadFile = File(...)):
     q3_score = 0
     if not file:
         return {'message': 'no file sent'}
     else:
         try:
-            q3_score = pkg.score_q3(file.file) #testing to try and pass the IO itself
+            print('trying')
+            q3_score = eval('pkg.' + str(score_q_n) + '(file.file)')
         except:
             print('Error')
     return {'score': q3_score}
-    #return {'info': f'file"{x}" saved at"{file_location}"'}
-
 
 @app.post('/question_four_screen')
 def score(text_results: Text_Results):
     one = text_results.text_one; two = text_results.text_two; three = text_results.text_three; four = text_results.text_four; five = text_results.text_five
     q4_score = pkg.score_q4(one, two, three, four, five)
     return {'score': int(q4_score)}
+
+@app.post("/question_five_screen")
+async def upload(file: UploadFile = File(...)):
+    q5_score = 0
+    if not file:
+        return {'message': 'no file sent'}
+    else:
+        try:
+            q5_score = pkg.score_q5(file.file)
+        except:
+            print('Error')
+    return {'score': q5_score}
 
 @app.post('/question_ten_screen')
 def score(text_results: Text_Results):

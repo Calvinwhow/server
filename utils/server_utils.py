@@ -469,6 +469,216 @@ def score_q4(one, two, three, four, five):
 	print('q4 score: ' + str(q4_score))
 	return q4_score
 
+def score_q5(audio_file):
+	q5_score = 0
+	lemon = True ; key = True ; ball = True
+	text = transcriber(audio_file)
+	print('q5 text: ', text)
+	if text.count('lemon') != 0 or text.count('lime') != 0:
+		if lemon:
+			q5_score = q5_score + 1
+			lemon = False
+	if text.count('key') != 0 or text.count('chi') != 0 or text.count('Chi') != 0 or text.count('tea') != 0 and key:
+		if key:
+			q5_score = q5_score + 1
+			key = False
+	if text.count('ball') != 0 or text.count('bawl') != 0 and ball:
+		if ball:
+			q5_score = q5_score + 1
+			ball = False
+	print('q5 score: ' + str(q5_score))
+	return q5_score
+
+def score_q6(audio_file):
+	p_words = True
+	import regex
+	from nltk.corpus import words
+	from nltk import download
+	try:
+		download('words')		
+	except:
+		print('error: failed nltk words download')
+	text = transcriber(audio_file)
+	p_finder = regex.compile(r'p\w+')
+	p_word_list = list(set(p_finder.findall(text)))
+	print('here are all found P words:')
+	print(p_word_list)
+	
+	for i in range(len(p_word_list)):
+		if p_word_list[i] in words.words():
+			word_count += 1
+			pass
+	word_count=int(word_count)
+	if word_count <= 1:
+		q6_score = 0
+	elif word_count >1 and word_count <4:
+		q6_score = 1
+	elif word_count >3 and word_count <6:
+		q6_score = 2
+	elif word_count >5 and word_count <8:
+		q6_score = 3
+	elif word_count >7 and word_count <11:
+		q6_score = 4
+	elif word_count >10 and word_count <14:
+		q6_score = 5		
+	elif word_count >13 and word_count <18:
+		q6_score = 6
+	elif word_count >= 18:
+		q6_score = 7	
+	else:
+		print('error: unknown error')
+		#Max 7 points
+	print('q6 score: ' + str(q6_score))
+	return q6_score
+
+def q6B_score(audio_file):
+	import regex
+	from nltk.corpus import words
+	from nltk import download
+	try:
+		download('words')		
+	except:
+		print('error: failed nltk words download')
+	animal_list = ['canidae', 'felidae', 'cat', 'cattle', 'dog', 'donkey', 'goat', 'guinea', 'pig', 'horse', 'pig', 'rabbit', 'fancy', 'rat', 'varieties', 'laboratory', 'rat', 'strains', 'sheep', 'breeds', 'water', 'buffalo', 'breeds', 'chicken', 'breeds', 'duck', 'breeds', 'goose', 'breeds', 'pigeon', 'breeds', 'turkey', 'breeds', 'aardvark', 'aardwolf', 'african', 'buffalo', 'african', 'elephant', 'african', 'leopard', 'albatross', 'alligator', 'alpaca', 'american', 'buffalo', 'bison', 'american', 'robin', 'amphibian', 'list', 'anaconda', 'angelfish', 'anglerfish', 'ant', 'anteater', 'antelope', 'antlion', 'ape', 'aphid', 'arabian', 'leopard', 'arctic', 'fox', 'arctic', 'wolf', 'armadillo', 'arrow', 'crab', 'asp', 'ass', 'donkey', 'baboon', 'badger', 'bald', 'eagle', 'bandicoot', 'barnacle', 'barracuda', 'basilisk', 'bass', 'bat', 'beaked', 'whale', 'bear', 'list', 'beaver', 'bedbug', 'bee', 'beetle', 'bird', 'list', 'bison', 'blackbird', 'black', 'panther', 'black', 'widow', 'spider', 'blue', 'bird', 'bluejay', 'blue', 'whale', 'boa', 'boar', 'bobcat', 'bobolink', 'bonobo', 'booby', 'box', 'jellyfish', 'bovid', 'buffalo', 'african', 'buffalo', 'american', 'bison', 'bug', 'butterfly', 'buzzard', 'camel', 'canid', 'cape', 'buffalo', 'capybara', 'cardinal', 'caribou', 'carp', 'cat', 'list', 'catshark', 'caterpillar', 'catfish', 'cattle', 'list', 'centipede', 'cephalopod', 'chameleon', 'cheetah', 'chickadee', 'chicken', 'chimpanzee', 'chinchilla', 'chipmunk', 'clam', 'clownfish', 'cobra', 'cockroach', 'cod', 'condor', 'constrictor', 'coral', 'cougar', 'cow', 'coyote', 'crab', 'crane', 'crane', 'fly', 'crawdad', 'crayfish', 'cricket', 'crocodile', 'crow', 'cuckoo', 'cicada', 'damselfly', 'deer', 'dingo', 'dinosaur', 'list', 'dog', 'list', 'dolphin', 'donkey', 'list', 'dormouse', 'dove', 'dragonfly', 'dragon', 'duck', 'dung', 'beetle', 'eagle', 'earthworm', 'earwig', 'echidna', 'eel', 'egret', 'elephant', 'elephant', 'seal', 'elk', 'emu', 'english', 'pointer', 'ermine', 'falcon', 'ferret', 'finch', 'firefly', 'fish', 'flamingo', 'flea', 'fly', 'flyingfish', 'fowl', 'fox', 'frog', 'fruit', 'bat', 'gamefowl', 'list', 'galliform', 'list', 'gazelle', 'gecko', 'gerbil', 'giant', 'panda', 'giant', 'squid', 'gibbon', 'gila', 'monster', 'giraffe', 'goat', 'list', 'goldfish', 'goose', 'list', 'gopher', 'gorilla', 'grasshopper', 'great', 'blue', 'heron', 'great', 'white', 'shark', 'grizzly', 'bear', 'ground', 'shark', 'ground', 'sloth', 'grouse', 'guan', 'list', 'guanaco', 'guineafowl', 'list', 'guinea', 'pig', 'list', 'gull', 'guppy', 'haddock', 'halibut', 'hammerhead', 'shark', 'hamster', 'hare', 'harrier', 'hawk', 'hedgehog', 'hermit', 'crab', 'heron', 'herring', 'hippopotamus', 'hookworm', 'hornet', 'horse', 'list', 'hoverfly', 'hummingbird', 'humpback', 'whale', 'hyena', 'iguana', 'impala', 'irukandji', 'jellyfish', 'jackal', 'jaguar', 'jay', 'jellyfish', 'junglefowl', 'kangaroo', 'kangaroo', 'mouse', 'kangaroo', 'rat', 'kingfisher', 'kite', 'kiwi', 'koala', 'koi', 'komodo', 'dragon', 'krill', 'ladybug', 'lamprey', 'landfowl', 'land', 'snail', 'lark', 'leech', 'lemming', 'lemur', 'leopard', 'leopon', 'limpet', 'lion', 'lizard', 'llama', 'lobster', 'locust', 'loon', 'louse', 'lungfish', 'lynx', 'macaw', 'mackerel', 'magpie', 'mammal', 'manatee', 'mandrill', 'manta', 'ray', 'marlin', 'marmoset', 'marmot', 'marsupial', 'marten', 'mastodon', 'meadowlark', 'meerkat', 'mink', 'minnow', 'mite', 'mockingbird', 'mole', 'mollusk', 'mongoose', 'monitor', 'lizard', 'monkey', 'moose', 'mosquito', 'moth', 'mountain', 'goat', 'mouse', 'mule', 'muskox', 'narwhal', 'newt', 'new', 'world', 'quail', 'nightingale', 'ocelot', 'octopus', 'old', 'world', 'quail', 'opossum', 'orangutan', 'orca', 'ostrich', 'otter', 'owl', 'ox', 'panda', 'panther', 'panthera', 'hybrid', 'parakeet', 'parrot', 'parrotfish', 'partridge', 'peacock', 'peafowl', 'pelican', 'penguin', 'perch', 'peregrine', 'falcon', 'pheasant', 'pig', 'pigeon', 'list', 'pike', 'pilot', 'whale', 'pinniped', 'piranha', 'planarian', 'platypus', 'polar', 'bear', 'pony', 'porcupine', 'porpoise', 'portuguese', 'man', 'o', 'war', 'possum', 'prairie', 'dog', 'prawn', 'praying', 'mantis', 'primate', 'ptarmigan', 'puffin', 'puma', 'python', 'quail', 'quelea', 'quokka', 'rabbit', 'list', 'raccoon', 'rainbow', 'trout', 'rat', 'rattlesnake', 'raven', 'ray', 'batoidea', 'ray', 'rajiformes', 'red', 'panda', 'reindeer', 'reptile', 'rhinoceros', 'right', 'whale', 'roadrunner', 'rodent', 'rook', 'rooster', 'roundworm', 'saber', 'toothed', 'cat', 'sailfish', 'salamander', 'salmon', 'sawfish', 'scale', 'insect', 'scallop', 'scorpion', 'seahorse', 'sea', 'lion', 'sea', 'slug', 'sea', 'snail', 'shark', 'list', 'sheep', 'list', 'shrew', 'shrimp', 'silkworm', 'silverfish', 'skink', 'skunk', 'sloth', 'slug', 'smelt', 'snail', 'snake', 'list', 'snipe', 'snow', 'leopard', 'sockeye', 'salmon', 'sole', 'sparrow', 'sperm', 'whale', 'spider', 'spider', 'monkey', 'spoonbill', 'squid', 'squirrel', 'starfish', 'star', 'nosed', 'mole', 'steelhead', 'trout', 'stingray', 'stoat', 'stork', 'sturgeon', 'sugar', 'glider', 'swallow', 'swan', 'swift', 'swordfish', 'swordtail', 'tahr', 'takin', 'tapir', 'tarantula', 'tarsier', 'tasmanian', 'devil', 'termite', 'tern', 'thrush', 'tick', 'tiger', 'tiger', 'shark', 'tiglon', 'toad', 'tortoise', 'toucan', 'trapdoor', 'spider', 'tree', 'frog', 'trout', 'tuna', 'turkey', 'list', 'turtle', 'tyrannosaurus', 'urial', 'vampire', 'bat', 'vampire', 'squid', 'vicuna', 'viper', 'vole', 'vulture', 'wallaby', 'walrus', 'wasp', 'warbler', 'water', 'boa', 'water', 'buffalo', 'weasel', 'whale', 'whippet', 'whitefish', 'whooping', 'crane', 'wildcat', 'wildebeest', 'wildfowl', 'wolf', 'wolverine', 'wombat', 'woodpecker', 'worm', 'wren', 'xerinae', 'x', 'ray', 'fish', 'yak', 'yellow', 'perch', 'zebra', 'zebra', 'finch', 'animals', 'by', 'number', 'of', 'neurons', 'animals', 'by', 'size', 'common', 'household', 'pests', 'common', 'names', 'of', 'poisonous', 'animals', 'alpaca', 'bali', 'cattle', 'cat', 'cattle', 'chicken', 'dog', 'domestic', 'bactrian', 'camel', 'domestic', 'canary', 'domestic', 'dromedary', 'camel', 'domestic', 'duck', 'domestic', 'goat', 'domestic', 'goose', 'domestic', 'guineafowl', 'domestic', 'hedgehog', 'domestic', 'pig', 'domestic', 'pigeon', 'domestic', 'rabbit', 'domestic', 'silkmoth', 'domestic', 'silver', 'fox', 'domestic', 'turkey', 'donkey', 'fancy', 'mouse', 'fancy', 'rat', 'lab', 'rat', 'ferret', 'gayal', 'goldfish', 'guinea', 'pig', 'guppy', 'horse', 'koi', 'llama', 'ringneck', 'dove', 'sheep', 'siamese', 'fighting', 'fish', 'society', 'finch', 'yak', 'water', 'buffalo']
+	animal_word_finder = regex.compile(r'\w+')
+	text = transcriber(audio_file)
+	word_list = animal_word_finder.findall(text)
+	print('identified words: ', set(word_list) & set(animal_list))
+	word_count = len(set(word_list) & set(animal_list))
+	print('number of correct words identified: ' + str(word_count))
+	
+	word_count = int(word_count)
+	if word_count >0 and word_count <5:
+		q6B_score = 0
+	elif word_count >4 and word_count <7:
+		q6B_score = 1
+	elif word_count >6 and word_count <9:
+		q6B_score = 2
+	elif word_count >8 and word_count <11:
+		q6B_score = 3
+	elif word_count >10 and word_count <14:
+		q6B_score = 4
+	elif word_count >13 and word_count <17:
+		q6B_score = 5		
+	elif word_count >16 and word_count <22:
+		q6B_score = 6
+	elif word_count >= 22:
+		q6B_score = 7
+	else:
+		print('error: unlabeled error occured')
+	#Max 7 points
+	print('q6B score: ' + str(q6B_score))	
+	return q6B_score
+
+def score_q7C(audio_file):
+	q7C_score = 0
+	harry = True; barnes = True; seventythree = True; orchard = True; close = True
+	kingsbridge = True; devon = True
+	text = transcriber(audio_file)
+	if text.count('harry') != 0 or text.count('hairy') != 0 or text.count('hary') != 0 or text.count('hurry') != 0:
+		if harry:
+			harry = False
+			q7C_score = q7C_score + 1
+	if text.count('barnes') != 0 or text.count('barns') != 0 or text.count('borns') != 0 or text.count('bornes') != 0 or text.count('burns') != 0:
+		if barnes:
+			barnes = False
+			q7C_score = q7C_score + 1
+	if text.count('73') != 0 or text.count('seventy three') != 0 or text.count('seventy-three') != 0:
+		if seventythree:
+			seventythree = False
+			q7C_score = q7C_score + 1	
+	if text.count('orchard') != 0 or text.count('orcherd') != 0 or text.count('orchid') != 0:
+		if orchard:
+			orchard = False
+			q7C_score = q7C_score + 1
+	if text.count('close') != 0 or text.count('clothes') != 0 or text.count('cloves') != 0:
+		if close:
+			close = False
+			q7C_score = q7C_score + 1
+	if text.count('kingsbridge') != 0:
+		if kingsbridge:
+			kingsbridge = False
+			q7C_score = q7C_score + 1	
+	if text.count('devon') != 0 or text.count('devin') != 0 or text.count('devon') != 0:
+		if devon:
+			devon = False
+			q7C_score = q7C_score + 1
+	print('q7C score: ' + str(q7C_score))
+	return q7C_score
+
+def score_q8(audio_file):
+	q8_score = 0
+	firstname = True; lastname = True
+	text = transcriber(audio_file)
+
+	if text.count('justin') != 0 or text.count('dustin') != 0 or text.count('dustin') != 0 or text.count('justine') != 0:
+		if firstname:				
+			firstname = False
+			q8_score = q8_score + 0.5
+	if text.count('trudeau') != 0 or text.count('judeau') != 0 or text.count('judo') or text.count('to do') or text.count('trudell') or text.count('tudo') or text.count('truth'):
+		if lastname:
+			lastname = False
+			q8_score = q8_score + 0.5
+	if q8_score != 1:
+		q8_score = 0
+	print('q8 score: ' + str(q8_score))
+	return q8_score
+
+def score_q8B(audio_file):
+	q8B_score = 0
+	firstname = True; lastname = True
+	text = transcriber(audio_file)
+	if text.count('alexander') != 0 or text.count('alex') or text.count('john') or text.count('johnathan'):
+		if firstname:				
+			firstname = False
+			q8B_score = q8B_score + 0.5
+	if text.count('macdonald') != 0 or text.count('mcdonald') != 0 or text.count('mcconell')  or text.count('mcdonalds') or text.count("mcdonald's"):
+		if lastname:
+			lastname = False
+			q8B_score = q8B_score + 0.5
+	if q8B_score != 1:
+		q8B_score = 0
+	print('q8B score: ' + str(q8B_score))
+	return q8B_score
+
+def score_q8B(audio_file):
+	q8B_score = 0
+	firstname = True; lastname = True
+	text = transcriber(audio_file)
+
+	if text.count('barack') != 0 or text.count('brock') or text.count('barocque'):
+		if firstname:				
+			firstname = False
+			q8C_score = q8C_score + 0.5
+	if text.count('obama') != 0 or text.count('osama') != 0 or text.count('drama'):
+		if lastname:
+			lastname = False
+			q8C_score = q8C_score + 0.5
+	if q8C_score != 1:
+		q8C_score = 0
+	print('q8C score: ' + str(q8C_score))
+	return q8C_score
+
+def score_q8B(audio_file):
+	q8B_score = 0
+	firstname = True; lastname = True
+	text = transcriber(audio_file)
+
+	if text.count('joseph') != 0 or text.count('joe') or text.count('doe') or text.count('dough'):
+		if firstname:				
+			firstname = False
+			q8D_score = q8D_score + 0.5
+	if text.count('biden') != 0 or text.count('raiden'):
+		if lastname:
+			lastname = False
+			q8D_score = q8D_score + 0.5
+	if q8D_score != 1:
+		q8D_score = 0
+	else:
+		q8D_score = 1
+	print('q8D score: ' + str(q8D_score))
+	return q8D_score
+
 def score_q10(sentence):
 	q10_score = 0
 	text = sentence	
@@ -492,6 +702,241 @@ def score_q10(sentence):
 		pass
 	print('q10 score: ' + str(q10_score))
 	return q10_score
+
+def score_q11(audio_file):
+	q11_score = 0
+	caterpillar = True
+	text = transcriber(audio_file)
+
+	if text.count('caterpillar') != 0:
+		if caterpillar:
+			caterpillar = False
+			q11_score = q11_score + 1
+	print('q11 score: ' + str(q11_score))
+	return q11_score
+
+def score_q11B(audio_file):
+	q11B_score = 0
+	eccentricity = True
+	text = transcriber(audio_file)
+	if text.count('eccentricity') != 0:
+		if eccentricity:
+			eccentricity = False
+			q11B_score = q11B_score + 1
+	print('q11B score: ' + str(q11B_score))
+	return q11B_score
+
+def score_q11C(audio_file):
+	q11C_score = 0
+	word = True
+	text = transcriber(audio_file)
+	if text.count('unintelligible') != 0:
+		if word:
+			word = False
+			q11C_score = q11C_score + 1
+	print('q11C score: ' + str(q11C_score))	
+	return q11C_score
+
+def score_q11D(audio_file):
+	q11D_score = 0
+	word = True
+	text = transcriber(audio_file)
+	if text.count('statistician') != 0:
+		if word:
+			word = False
+			q11D_score = q11D_score + 1
+	print('q11D score: ' + str(q11D_score))	
+	return q11D_score
+
+def score_q12(audio_file):
+	q12_score = 0
+	glitters = True
+	text = transcriber(audio_file)
+	if text.count('all that glitters is not gold') != 0 or text.count('all the glitters is not gold') != 0 or text.count('the glitters is not gold') != 0 or text.count('that glitters is not gold') != 0:
+		if glitters:
+			glitters = False
+			q12_score = 1		
+	print('q12 score: ' + str(q12_score))
+	return q12_score
+
+def score_q12B(audio_file):
+	q12B_score = 0
+	gold = True
+	text = transcriber(audio_file)
+	if text.count('a stitch in time saves nine') != 0 or text.count('stitch in time saves nine') != 0:
+		if gold:
+			gold = False
+			q12B_score = 1		
+	print('q12B score: ' + str(q12B_score))
+	return q12B_score
+
+def score_q13(audio_file):
+	q13_score = 0
+	spoon = True
+	text = transcriber(audio_file)
+	if text.count('spoon') != 0:
+		if spoon:
+			q13_score = q13_score + 1
+			spoon = False
+	print('q13 score: ' + str(q13_score))
+	return q13_score
+
+def score_q13B(audio_file):
+	q13B_score = 0
+	book = True
+	text = transcriber(audio_file)
+	if text.count('book') != 0 or text.count('novel') != 0:
+		if book:
+			q13B_score = q13B_score + 1
+			book = False
+	print('q13B score: ' + str(q13B_score))
+	return q13B_score
+
+def score_q13C(audio_file):
+	q13C_score = 0
+	kangaroo = True
+	text = transcriber(audio_file)
+	if text.count('kangaroo') != 0:
+		if kangaroo:
+			q13C_score = q13C_score + 1
+			kangaroo = False
+	print('q13C score: ' + str(q13C_score))
+	return q13C_score
+
+def score_q13D(audio_file):
+	q13D_score = 0
+	penguin = True
+	text = transcriber(audio_file)
+	if text.count('penguin') != 0:
+		if penguin:
+			q13D_score = q13D_score + 1
+			penguin = False
+	print('q13D score: ' + str(q13D_score))
+	return q13D_score
+
+def score_q13E(audio_file):
+	q13E_score = 0
+	anchor = True
+	text = transcriber(audio_file)
+	if text.count('anchor') != 0:
+		if anchor:
+			q13E_score = q13E_score + 1
+			anchor = False
+	print('q13E score: ' + str(q13E_score))
+	return q13E_score
+
+def score_q13F(audio_file):
+	q13F_score = 0
+	camel = True
+	text = transcriber(audio_file)
+	if text.count('camel') != 0 or text.count('dromedary') != 0:
+		if camel:
+			q13F_score = q13F_score + 1
+			camel = False
+	print('q13F score: ' + str(q13F_score))
+	return q13F_score
+
+def score_q13G(audio_file):
+	q13G_score = 0
+	harp = True
+	text = transcriber(audio_file)
+	if text.count('harp') != 0 or text.count('harpsicord') != 0:
+		if harp:
+			q13G_score = q13G_score + 1
+			harp = False
+	print('q13G score: ' + str(q13G_score))
+	return q13G_score
+
+def score_q13H(audio_file):
+	q13H_score = 0
+	rhino = True
+	text = transcriber(audio_file)
+	if text.count('rhino') != 0 or text.count('rhinoceros') != 0:
+		if rhino:
+			q13H_score = q13H_score + 1
+			rhino = False
+	print('q13H score: ' + str(q13H_score))
+	return q13H_score
+
+def score_q13I(audio_file):
+	q13I_score = 0
+	barrel = True
+	text = transcriber(audio_file)
+	if text.count('barrel') != 0 or text.count('cask') != 0:
+		if barrel:
+			q13I_score = q13I_score + 1
+			barrel = False
+	print('q13I score: ' + str(q13I_score))
+	return q13I_score
+
+def score_q13J(audio_file):
+	q13J_score = 0
+	crown = True
+	text = transcriber(audio_file)
+	if text.count('crown') != 0 or text.count('tiara') != 0:
+		if crown:
+			q13J_score = q13J_score + 1
+			crown = False
+	print('q13J score: ' + str(q13J_score))
+	return q13J_score
+
+def score_q13K(audio_file):
+	q13K_score = 0
+	alligator = True
+	text = transcriber(audio_file)
+	if text.count('alligator') != 0 or text.count('crocodile') != 0 or text.count('gator') != 0 or text.count('croc') != 0:
+		if alligator:
+			q13K_score = q13K_score + 1
+			alligator = False
+	print('q13K score: ' + str(q13K_score))
+	return q13K_score
+
+def score_q13L(audio_file):
+	q13L_score = 0
+	accordion = True
+	text = transcriber(audio_file)
+	if text.count('accordion') != 0 or text.count('squeezebox') != 0:
+		if accordion:
+			q13L_score = q13L_score + 1
+			accordion = False
+	print('q13L score: ' + str(q13L_score))
+	return q13L_score
+
+def score_q15(audio_file):
+	q15_score = 0
+	text = transcriber(audio_file)
+	sew = True
+	pint = True
+	soot = True
+	dough = True
+	ht = True
+	def on_text(self, instance, text):
+		if text.count('so') != 0 or text.count('sew') != 0:
+			if sew:
+				q15_prescore = q15_prescore + 1
+				sew = False		
+		if text.count('pint') != 0:
+			if pint:
+				q15_prescore = q15_prescore + 1
+				pint = False		
+		if text.count('soot') != 0 or text.count('set') != 0 or text.count('suit') != 0 or text.count('sit') != 0 or text.count('suet') != 0 or text.count('search') != 0:
+			if soot:
+				q15_prescore = q15_prescore + 1
+				soot = False
+		if text.count('dough') != 0 or text.count('do') != 0 or text.count('go') != 0:
+			if dough:
+				q15_prescore = q15_prescore + 1
+				dough = False
+		if text.count('height') != 0 or text.count('tight') != 0:
+			if ht:
+				q15_prescore = q15_prescore + 1
+				ht = False
+		if q15_prescore == 5:
+			q15_score = 1
+		else:
+			q15_score = 0
+		print('q15 score: ', q15_score)
+		return q15_score
 
 def score_q16():
 	q16_score = 0
@@ -561,6 +1006,136 @@ def score_q16():
 	print('q16c score: ' + str(clock_score))
 	return q16_score
 	#LGTM
+
+def score_q17(audio_file, button_press):
+	q17_score = 0
+	text = transcriber(audio_file)
+	eight = True
+	if text.count('eight') != 0 or text.count('8') != 0:
+		if eight and button_press == False:
+			q17_score = q17_score + 1
+			eight = False
+	print('q17 score: ' + str(q17_score))
+	return q17_score
+
+def score_q17B(audio_file, button_press):
+	q17B_score = 0
+	text = transcriber(audio_file)
+	ten = True
+	if text.count('ten') != 0 or text.count('10') != 0:
+		if ten and button_press == False:
+			q17B_score = q17B_score + 1
+			ten = False
+	print('q17B score: ' + str(q17B_score))
+	return q17B_score
+
+def score_q17C(audio_file, button_press):
+	q17C_score = 0
+	text = transcriber(audio_file)
+	seven = True
+	if text.count('seven') != 0 or text.count('7') != 0:
+		if seven and button_press == False:
+			q17C_score = q17C_score + 1
+			seven = False
+	print('q17C score: ' + str(q17C_score))
+	return q17C_score	
+
+def score_q17D(audio_file, button_press):
+	q17D_score = 0
+	text = transcriber(audio_file)
+	nine = True
+	if text.count('nine') != 0 or text.count('9') != 0:
+		if nine and button_press == False:
+			q17D_score = q17D_score + 1
+			nine = False
+	print('q17D score: ' + str(q17D_score))
+	return q17D_score
+
+def score_q18(audio_file, button_press):
+	q18_score = 0
+	text = transcriber(audio_file)
+	k = True
+	if text.count('k') != 0 or text.count('kay') != 0 or text.count('okay') != 0:
+		if k:
+			q18_score = q18_score + 1
+			k = False
+	print('q18 score: ' + str(q18_score))
+	return q18_score
+
+def score_q18B(audio_file, button_press):
+	q18B_score = 0
+	text = transcriber(audio_file)
+	m = True
+	if text.count('m') != 0 or text.count('em') != 0:
+		if m:
+			q18B_score = q18B_score + 1
+			m = False
+	print('q18B score: ' + str(q18B_score))
+	return q18B_score
+
+def score_q18C(audio_file, button_press):
+	q18C_score = 0
+	text = transcriber(audio_file)
+	a = True
+	if text.count('a') != 0 or text.count('eh') != 0 or text.count('ay') != 0 or text.count('yay') != 0:
+		if a:
+			q18C_score = q18C_score + 1
+			a = False
+	print('q18C score: ' + str(q18C_score))
+	return q18C_score
+
+def score_q18D(audio_file, button_press):
+	q18D_score = 0
+	text = transcriber(audio_file)
+	t = True
+	if text.count('t') != 0 or text.count('tea') != 0 or text.count('tee') != 0 or text.count('chi') != 0:
+		if t:
+			q18D_score = q18D_score + 1
+			t = False
+	print('q18D score: ' + str(q18D_score))
+	return q18D_score
+
+def score_q19(audio_file, button_press):
+	q19_score = 0
+	text = transcriber(audio_file)
+	harry = True
+	barnes = True
+	seventythree = True
+	orchard = True
+	close = True
+	kingsbridge = True
+	devon = True
+
+	if text.count('harry') != 0 or text.count('hairy') != 0 or text.count('hary') != 0 or text.count('hurry') != 0:
+		if harry:
+			harry = False
+			q19_score = q19_score + 1
+	if text.count('barnes') != 0 or text.count('barns') != 0 or text.count('borns') != 0 or text.count('bornes') != 0 or text.count('burns') != 0:
+		if barnes:
+			barnes = False
+			q19_score = q19_score + 1
+	if text.count('73') != 0 or text.count('seventy three') != 0 or text.count('seventy-three') != 0:
+		if seventythree:
+			seventythree = False
+			q19_score = q19_score + 1	
+	if text.count('orchard') != 0 or text.count('orcherd') != 0 or text.count('orchid') != 0:
+		if orchard:
+			orchard = False
+			q19_score = q19_score + 1
+	if text.count('close') != 0 or text.count('clothes') != 0 or text.count('cloves') != 0:
+		if close:
+			close = False
+			q19_score = q19_score + 1
+	if text.count('kingsbridge') != 0:
+		if kingsbridge:
+			kingsbridge = False
+			q19_score = q19_score + 1	
+	if text.count('devon') != 0 or text.count('devin') != 0 or text.count('devon') != 0:
+		if devon:
+			devon = False
+			q19_score = q19_score + 1
+	print('q19 score: ' + str(q19_score))
+	return q19_score
 
 def score_q20(one, two, three, four, five, six, seven, eight):
 	q20_score = 0
