@@ -21,10 +21,8 @@ def transcriber(audio_file):
 	r = sr.Recognizer()
 	with arb as source:
 		audiodata = r.record(arb)
-		print('in arb')
 	try:
 		text = r.recognize_google(audiodata, language='en-US', show_all=False)
-		print(text)
 	except:
 		print('Error: speech recognition; suspect network error.')
 	return text
@@ -449,27 +447,30 @@ def score_q3(audio_file):
 
 def score_q4(one, two, three, four, five):
 	q4_answers = []
-	if one != 'string':
-		q4_answers.append(100 - int(one))
-	else:
-		pass
-	if two != 'string':
-		print(two)
-		q4_answers.append(int(one) - int(two))
-	else:
-		pass
-	if three != 'string':
-		q4_answers.append(int(two) - int(three))
-	else:
-		pass
-	if four != 'string':
-		q4_answers.append(int(three) - int(four))		
-	else:
-		pass
-	if five != 'string':
-		q4_answers.append(int(four) - int(five))			
-	else:
-		pass
+	try:
+		if one != 'string':
+			q4_answers.append(100 - int(one))
+		else:
+			pass
+		if two != 'string':
+			print(two)
+			q4_answers.append(int(one) - int(two))
+		else:
+			pass
+		if three != 'string':
+			q4_answers.append(int(two) - int(three))
+		else:
+			pass
+		if four != 'string':
+			q4_answers.append(int(three) - int(four))		
+		else:
+			pass
+		if five != 'string':
+			q4_answers.append(int(four) - int(five))			
+		else:
+			pass
+	except:
+		print('Error: NoneType in answers')
 	#Max 5 points
 	q4_score = q4_answers.count(7)
 	print('q4 score: ' + str(q4_score))

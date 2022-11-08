@@ -90,8 +90,6 @@ async def upload(file: UploadFile = File(...)):
 async def upload(question: str, file: UploadFile = File(...)):
     score = 0
     score_qn = 'score_' + question
-    print(score_qn)
-    print(file.file, 'type: ',  type(file.file))
     if not file:
         return {'message': 'no file sent'}
     else:
@@ -101,7 +99,7 @@ async def upload(question: str, file: UploadFile = File(...)):
             print('Error')
     return {'score': score}
 
-@app.post('/upload_wav/{qn}')
+@app.post('/upload_wav')
 async def upload(file: UploadFile = File(...)):
     if not file:
         return {'message': 'no file sent'}
