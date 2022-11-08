@@ -49,36 +49,11 @@ def score(text_results: Text_Results):
     q2_score = pkg.score_q2(province, country, continent, modality, day, month, year, date, season, city)
     return {'score': int(q2_score)}
 
-@app.post("/audio_question/{score_q_n}")
-async def upload(score_q_n: str, file: UploadFile = File(...)):
-    q3_score = 0
-    if not file:
-        return {'message': 'no file sent'}
-    else:
-        try:
-            print('trying')
-            q3_score = eval('pkg.' + str(score_q_n) + '(file.file)')
-        except:
-            print('Error')
-    return {'score': q3_score}
-
 @app.post('/question_four_screen')
 def score(text_results: Text_Results):
     one = text_results.text_one; two = text_results.text_two; three = text_results.text_three; four = text_results.text_four; five = text_results.text_five
     q4_score = pkg.score_q4(one, two, three, four, five)
     return {'score': int(q4_score)}
-
-@app.post("/question_five_screen")
-async def upload(file: UploadFile = File(...)):
-    q5_score = 0
-    if not file:
-        return {'message': 'no file sent'}
-    else:
-        try:
-            q5_score = pkg.score_q5(file.file)
-        except:
-            print('Error')
-    return {'score': q5_score}
 
 @app.post('/question_ten_screen')
 def score(text_results: Text_Results):
@@ -111,20 +86,38 @@ async def upload(file: UploadFile = File(...)):
             file.file.close()
         return {'info': f'file"{x}" saved at"{file_location}"'}
 
-@app.post('/upload_wav')
+@app.post("/audio_question/{question}")
+async def upload(question: str, file: UploadFile = File(...)):
+    score = 0
+    score_qn = 'score_' + question
+    print(score_qn)
+    print(file.file, 'type: ',  type(file.file))
+    if not file:
+        return {'message': 'no file sent'}
+    else:
+        try:
+            score = eval('pkg.' + score_qn + '(file.file)')
+        except:
+            print('Error')
+    return {'score': score}
+
+@app.post('/upload_wav/{qn}')
 async def upload(file: UploadFile = File(...)):
     if not file:
         return {'message': 'no file sent'}
     else:
         try:
             file_location = f"{file.filename}"
-            print(file_location)
+            my_dir = os.getcwd()
+            dest_dir = 'audio'
+            save_path = os.path.join(my_dir, dest_dir)
             with open(file_location, 'wb+') as file_object:
+                os.chdir(save_path)
                 file_object.write(file.file.read())
         finally:
             x = file.filename
             file.file.close()
-        return {'info': f'file"{x}" saved at"{file_location}"'}
+        return {'info': f'file: "{x}" saved at: "{file_location}"'}
 
 #Functional CSV posting function
 @app.post('/results/')

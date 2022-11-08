@@ -16,6 +16,19 @@ import glob
 import PIL	
 import os
 
+def transcriber(audio_file):
+	arb = sr.AudioFile(audio_file)
+	r = sr.Recognizer()
+	with arb as source:
+		audiodata = r.record(arb)
+		print('in arb')
+	try:
+		text = r.recognize_google(audiodata, language='en-US', show_all=False)
+		print(text)
+	except:
+		print('Error: speech recognition; suspect network error.')
+	return text
+
 def score_q2(province_text, country_text, continent_text, program_text, day_text, month_text, year_text, date_text, season_text, city_text):
 	country_dict = {
 	'AF': 'AFGHANISTAN',
@@ -409,17 +422,6 @@ def score_q2(province_text, country_text, continent_text, program_text, day_text
 	print('q2_score: ', q2_score)
 	return q2_score
 
-def transcriber(audio_file):
-	arb = sr.AudioFile(audio_file)
-	r = sr.Recognizer()
-	with arb as source:
-		audiodata = r.record(arb)
-	try:
-		text = r.recognize_google(audiodata, language='en-US', show_all=False)
-	except:
-		print('Error: speech recognition; suspect network error.')
-	return text
-
 def score_q3(audio_file):
 	q3_score = 0
 	lemon = True ; key = True ; ball = True
@@ -438,6 +440,10 @@ def score_q3(audio_file):
 			if ball:
 				q3_score = q3_score + 1
 				ball = False
+		if text.count('kebal') != 0:
+			q3_score = q3_score + 2
+		if q3_score > 3:
+			q3_score = 3
 	print('q3 score: ' + str(q3_score))
 	return q3_score 
 
