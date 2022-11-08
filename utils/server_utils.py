@@ -497,7 +497,7 @@ def score_q5(audio_file):
 	return q5_score
 
 def score_q6(audio_file):
-	p_words = True
+	q6_score = 0 
 	import regex
 	from nltk.corpus import words
 	from nltk import download
@@ -542,6 +542,7 @@ def q6B_score(audio_file):
 	import regex
 	from nltk.corpus import words
 	from nltk import download
+	q6B_score = 0 
 	try:
 		download('words')		
 	except:
@@ -582,50 +583,32 @@ def score_q7C(audio_file):
 	harry = True; barnes = True; seventythree = True; orchard = True; close = True
 	kingsbridge = True; devon = True
 	text = transcriber(audio_file)
+	print(text)
 	if text.count('harry') != 0 or text.count('hairy') != 0 or text.count('hary') != 0 or text.count('hurry') != 0:
-		if harry:
-			harry = False
-			q7C_score = q7C_score + 1
+		q7C_score = q7C_score + 1
 	if text.count('barnes') != 0 or text.count('barns') != 0 or text.count('borns') != 0 or text.count('bornes') != 0 or text.count('burns') != 0:
-		if barnes:
-			barnes = False
-			q7C_score = q7C_score + 1
+		q7C_score = q7C_score + 1
 	if text.count('73') != 0 or text.count('seventy three') != 0 or text.count('seventy-three') != 0:
-		if seventythree:
-			seventythree = False
-			q7C_score = q7C_score + 1	
+		q7C_score = q7C_score + 1	
 	if text.count('orchard') != 0 or text.count('orcherd') != 0 or text.count('orchid') != 0:
-		if orchard:
-			orchard = False
-			q7C_score = q7C_score + 1
+		q7C_score = q7C_score + 1
 	if text.count('close') != 0 or text.count('clothes') != 0 or text.count('cloves') != 0:
-		if close:
-			close = False
-			q7C_score = q7C_score + 1
+		q7C_score = q7C_score + 1
 	if text.count('kingsbridge') != 0:
-		if kingsbridge:
-			kingsbridge = False
-			q7C_score = q7C_score + 1	
+		q7C_score = q7C_score + 1	
 	if text.count('devon') != 0 or text.count('devin') != 0 or text.count('devon') != 0:
-		if devon:
-			devon = False
-			q7C_score = q7C_score + 1
+		q7C_score = q7C_score + 1
 	print('q7C score: ' + str(q7C_score))
 	return q7C_score
 
 def score_q8(audio_file):
 	q8_score = 0
-	firstname = True; lastname = True
 	text = transcriber(audio_file)
 
 	if text.count('justin') != 0 or text.count('dustin') != 0 or text.count('dustin') != 0 or text.count('justine') != 0:
-		if firstname:				
-			firstname = False
-			q8_score = q8_score + 0.5
+		q8_score = q8_score + 0.5
 	if text.count('trudeau') != 0 or text.count('judeau') != 0 or text.count('judo') or text.count('to do') or text.count('trudell') or text.count('tudo') or text.count('truth'):
-		if lastname:
-			lastname = False
-			q8_score = q8_score + 0.5
+		q8_score = q8_score + 0.5
 	if q8_score != 1:
 		q8_score = 0
 	print('q8 score: ' + str(q8_score))
@@ -633,52 +616,37 @@ def score_q8(audio_file):
 
 def score_q8B(audio_file):
 	q8B_score = 0
-	firstname = True; lastname = True
 	text = transcriber(audio_file)
 	if text.count('alexander') != 0 or text.count('alex') or text.count('john') or text.count('johnathan'):
-		if firstname:				
-			firstname = False
-			q8B_score = q8B_score + 0.5
+		q8B_score = q8B_score + 0.5
 	if text.count('macdonald') != 0 or text.count('mcdonald') != 0 or text.count('mcconell')  or text.count('mcdonalds') or text.count("mcdonald's"):
-		if lastname:
-			lastname = False
-			q8B_score = q8B_score + 0.5
+		q8B_score = q8B_score + 0.5
 	if q8B_score != 1:
 		q8B_score = 0
 	print('q8B score: ' + str(q8B_score))
 	return q8B_score
 
-def score_q8B(audio_file):
-	q8B_score = 0
-	firstname = True; lastname = True
+def score_q8C(audio_file):
+	q8C_score = 0
 	text = transcriber(audio_file)
 
 	if text.count('barack') != 0 or text.count('brock') or text.count('barocque'):
-		if firstname:				
-			firstname = False
-			q8C_score = q8C_score + 0.5
+		q8C_score = q8C_score + 0.5
 	if text.count('obama') != 0 or text.count('osama') != 0 or text.count('drama'):
-		if lastname:
-			lastname = False
-			q8C_score = q8C_score + 0.5
+		q8C_score = q8C_score + 0.5
 	if q8C_score != 1:
 		q8C_score = 0
 	print('q8C score: ' + str(q8C_score))
 	return q8C_score
 
-def score_q8B(audio_file):
-	q8B_score = 0
-	firstname = True; lastname = True
+def score_q8D(audio_file):
+	q8D_score = 0
 	text = transcriber(audio_file)
 
 	if text.count('joseph') != 0 or text.count('joe') or text.count('doe') or text.count('dough'):
-		if firstname:				
-			firstname = False
-			q8D_score = q8D_score + 0.5
+		q8D_score = q8D_score + 0.5
 	if text.count('biden') != 0 or text.count('raiden'):
-		if lastname:
-			lastname = False
-			q8D_score = q8D_score + 0.5
+		q8D_score = q8D_score + 0.5
 	if q8D_score != 1:
 		q8D_score = 0
 	else:
@@ -712,74 +680,55 @@ def score_q10(sentence):
 
 def score_q11(audio_file):
 	q11_score = 0
-	caterpillar = True
 	text = transcriber(audio_file)
 
 	if text.count('caterpillar') != 0:
-		if caterpillar:
-			caterpillar = False
-			q11_score = q11_score + 1
+		q11_score = q11_score + 1
 	print('q11 score: ' + str(q11_score))
 	return q11_score
 
 def score_q11B(audio_file):
 	q11B_score = 0
-	eccentricity = True
 	text = transcriber(audio_file)
 	if text.count('eccentricity') != 0:
-		if eccentricity:
-			eccentricity = False
-			q11B_score = q11B_score + 1
+		q11B_score = q11B_score + 1
 	print('q11B score: ' + str(q11B_score))
 	return q11B_score
 
 def score_q11C(audio_file):
 	q11C_score = 0
-	word = True
 	text = transcriber(audio_file)
 	if text.count('unintelligible') != 0:
-		if word:
-			word = False
-			q11C_score = q11C_score + 1
+		q11C_score = q11C_score + 1
 	print('q11C score: ' + str(q11C_score))	
 	return q11C_score
 
 def score_q11D(audio_file):
 	q11D_score = 0
-	word = True
 	text = transcriber(audio_file)
 	if text.count('statistician') != 0:
-		if word:
-			word = False
-			q11D_score = q11D_score + 1
+		q11D_score = q11D_score + 1
 	print('q11D score: ' + str(q11D_score))	
 	return q11D_score
 
 def score_q12(audio_file):
 	q12_score = 0
-	glitters = True
 	text = transcriber(audio_file)
 	if text.count('all that glitters is not gold') != 0 or text.count('all the glitters is not gold') != 0 or text.count('the glitters is not gold') != 0 or text.count('that glitters is not gold') != 0:
-		if glitters:
-			glitters = False
-			q12_score = 1		
+		q12_score = 1		
 	print('q12 score: ' + str(q12_score))
 	return q12_score
 
 def score_q12B(audio_file):
 	q12B_score = 0
-	gold = True
 	text = transcriber(audio_file)
 	if text.count('a stitch in time saves nine') != 0 or text.count('stitch in time saves nine') != 0:
-		if gold:
-			gold = False
-			q12B_score = 1		
+		q12B_score = 1		
 	print('q12B score: ' + str(q12B_score))
 	return q12B_score
 
 def score_q13(audio_file):
 	q13_score = 0
-	spoon = True
 	text = transcriber(audio_file)
 	if text.count('spoon') != 0:
 		if spoon:
