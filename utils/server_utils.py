@@ -23,6 +23,7 @@ def transcriber(audio_file):
 		audiodata = r.record(arb)
 	try:
 		text = r.recognize_google(audiodata, language='en-US', show_all=False)
+		print('text identified: ', '\n' , text)
 	except:
 		print('Error: speech recognition; suspect network error.')
 	return text
@@ -277,18 +278,24 @@ def score_q2(province_text, country_text, continent_text, program_text, day_text
 	q2_score = 0
 	def getLocation(userCity, userCountry, q2_score):
 		try:
+			print('trying')
+			print(userCity)
+			print(userCountry)
+			print(q2_score)
 			locationIP = geocoder.ip('me')
-			lat, lng = locationIP.latlng
 			distanceKM = 0
 			if city_text is not '':
 				locationGiven = geocoder.arcgis(city_text)
 				userCity = (locationGiven.latlng[0], locationGiven.latlng[1])			
 				userIP = (locationIP.latlng[0], locationIP.latlng[1])
+				print('trying distance')
 				distanceKM = distance(userIP, userCity)
-				
+				print('distance done')
+
 			#--------------Continent Identificaiton---------------#
 			if country_dict[locationIP.country].lower() == 'canada' or country_dict[locationIP.country].lower() == 'united states':
 				true_continent = 'North America'
+				print('continent done')
 			else:
 				true_continent = 'Other'
 			
@@ -301,13 +308,13 @@ def score_q2(province_text, country_text, continent_text, program_text, day_text
 			else:
 				print('distance = 0')
 				pass
-			if province.capitalize() == province_text: #should be nullproof
+			if province.capitalize() == province_text:
 				q2_score += 1
 				print('province = 1')
 			else:
 				print('province = 0')
 				pass
-			if country.upper() == country_text.upper(): #should be nullproof
+			if country.upper() == country_text.upper():
 				q2_score += 1
 				print('country = 1')
 			else:
@@ -412,7 +419,6 @@ def score_q2(province_text, country_text, continent_text, program_text, day_text
 		else:
 			print('season = 0')
 		return q2_score
-		pass
 
 	q2_component_one = getLocation(city_text, country_text, q2_score)
 	q2_component_two = date_and_time(q2_score)
@@ -507,7 +513,7 @@ def score_q6(audio_file):
 		print('error: failed nltk words download')
 	text = transcriber(audio_file)
 	p_finder = regex.compile(r'p\w+')
-	p_word_list = list(set(p_finder.findall(text)))
+	p_word_list = list(set(p_finder.findall(text.lower())))
 	print('here are all found P words:')
 	print(p_word_list)
 	
@@ -538,7 +544,7 @@ def score_q6(audio_file):
 	print('q6 score: ' + str(q6_score))
 	return q6_score
 
-def q6B_score(audio_file):
+def score_q6B(audio_file):
 	import regex
 	from nltk.corpus import words
 	from nltk import download
